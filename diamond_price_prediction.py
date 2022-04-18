@@ -24,8 +24,12 @@ diamond_features = diamonds_data.copy()
 diamond_labels = diamond_features.pop('price')
 
 #%%
-#Ordinal Encoder
-encoder = OrdinalEncoder()
+#Ordinal Encoder to encode categorical features
+cut_categories = ['Fair','Good','Very Good','Premium','Ideal']
+color_categories = ['J','I','H','G','F','E','D']
+clarity_categories = ['I1','SI2','SI1','VS2','VS1','VVS2','VVS1','IF']
+
+encoder = OrdinalEncoder(categories = [cut_categories, color_categories, clarity_categories])
 diamond_features[['cut', 'color', 'clarity']] = encoder.fit_transform(diamond_features[['cut', 'color', 'clarity']])
 
 #%%
@@ -70,13 +74,13 @@ model.compile(optimizer = 'adam', loss = 'mse', metrics = ['mae', 'mse'])
 #Train model
 log_path = r'C:\\Users\\Kim Young\\Desktop\\SHRDC\\Deep Learning\\TensorFlow Deep Learning\\Tensorboard\\logs'
 tb = tf.keras.callbacks.TensorBoard(log_dir = log_path)
-es = tf.keras.callbacks.EarlyStopping(monitor = 'val_loss', patience = 5)
+es = tf.keras.callbacks.EarlyStopping(monitor = 'val_loss', patience = 5, verbose = 2)
 
-history = model.fit(x_train, y_train, validation_data = (x_eval, y_eval), batch_size = 32,epochs = 100, callbacks = [es,tb])
+history = model.fit(x_train, y_train, validation_data = (x_eval, y_eval), batch_size = 64,epochs = 100, callbacks = [tb, es])
 
 #%%
 #Evaluate model
-result = model.evaluate(x_test, y_test, batch_size = 32)
+result = model.evaluate(x_test, y_test, batch_size = 64)
 
 print(f"Test loss = {result[0]}")
 print(f"Test MAE = {result[1]}")
