@@ -10,7 +10,6 @@ This project was created using Spyder as the IDE. The frameworks used include Te
 ### 2.2 Data Source
 The data used in this project is obtained from [Diamonds](https://www.kaggle.com/datasets/shivam2503/diamonds).
 
-########
 ### 2.3 Data Pipeline
 The data is first loaded and preprocessed to remove columns that are not useful. Ordinal encoder is used to encode the categorical features. The data is then split into train-validation-test sets, where 20% of the data is allocated to the validation set, and the remaining data is split into train and test sets in a ratio of 60:40.
 
